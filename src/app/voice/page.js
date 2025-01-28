@@ -2,82 +2,65 @@
 
 import React from 'react';
 import { Card, CardContent } from '@/components/ui/card';
-import { Phone, Battery, Users, Monitor, PersonStanding } from 'lucide-react';
+import { Phone, Battery, Users, Monitor, Headset, Layers } from 'lucide-react';
 
 const VoiceDashboard = () => {
-  // Sample data structure for programs and their agents
-  const programData = [
-    {
-      id: 1,
-      name: 'Diabetes Care Onboarding 2025',
-      status: 'Active',
-      startDate: '2024-02-15',
-      endDate: '2025-02-15',
-      targetCohorts: ['Unmanaged A1C', 'Lifestyle Change Ready'],
-      description: 'Proactive outreach for diabetes care management',
-      agents: [
-        {
-          id: 1,
-          name: 'Emma',
-          type: 'AI',
-          status: 'Active',
-          callsMade: 15025,
-          totalCalls: 18000,
-          avgCallLength: '1:45',
-          optInRate: 45,
-          handoffRate: 38,
-          answerRate: 13
-        },
-        {
-          id: 2,
-          name: 'John Smith',
-          type: 'Human',
-          status: 'Active',
-          callsMade: 1205,
-          totalCalls: 1500,
-          avgCallLength: '2:30',
-          optInRate: 65,
-          handoffRate: 28,
-          answerRate: 22
-        }
-      ]
-    },
-    {
-      id: 2,
-      name: 'Mental Health Support Program',
-      status: 'Active',
-      startDate: '2024-01-20',
-      endDate: '2024-12-31',
-      targetCohorts: ['Depression Screening', 'Anxiety Management'],
-      description: 'Mental health screening and support outreach',
-      agents: [
-        {
-          id: 3,
-          name: 'Sarah',
-          type: 'AI',
-          status: 'Active',
-          callsMade: 60102,
-          totalCalls: 75000,
-          avgCallLength: '1:15',
-          optInRate: 67,
-          handoffRate: 42,
-          answerRate: 15
-        },
-        {
-          id: 4,
-          name: 'Maria Garcia',
-          type: 'Human',
-          status: 'Paused',
-          callsMade: 2890,
-          totalCalls: 3000,
-          avgCallLength: '3:15',
-          optInRate: 72,
-          handoffRate: 31,
-          answerRate: 25
-        }
-      ]
-    }
-  ];
+  const programData = {
+    humanPrograms: [
+      {
+        id: 1,
+        name: 'New Member Retention 2025',
+        status: 'Active',
+        startDate: '2025-01-01',
+        endDate: '2025-12-31',
+        targetCohorts: ['Missed Appointments', 'Limited Provider Contact', 'Medication Non-Adherence'],
+        description: 'Proactive mental health support and therapy enrollment campaign',
+        channel: 'multi',
+        engagementRate: 38,
+        membersReached: 10430,
+        agents: [
+          {
+            id: 2,
+            name: 'Care Team',
+            type: 'Human',
+            status: 'Active',
+            callsMade: 20430,
+            totalCalls: 35000,
+            avgCallLength: '4:30',
+            optInRate: 38,
+            answerRate: 45
+          }
+        ]
+      }
+    ],
+    aiPrograms: [
+      {
+        id: 2,
+        name: 'Annual Wellness Checkup',
+        status: 'Paused',
+        startDate: '2024-01-01',
+        endDate: '2024-12-31',
+        targetCohorts: ['Preventive Care Due', 'High Risk Members'],
+        description: 'Annual wellness visit scheduling and preventive care reminders',
+        channel: 'voice',
+        engagementRate: 42,
+        membersReached: 98760,
+        agents: [
+          {
+            id: 1,
+            name: 'Emma AI',
+            type: 'AI',
+            status: 'Active',
+            callsMade: 98760,
+            totalCalls: 150000,
+            avgCallLength: '2:15',
+            optInRate: 42,
+            answerRate: 28
+          }
+        ]
+      }
+    ]
+  };
 
   const getStatusColor = (status) => {
     const colors = {
@@ -96,37 +79,86 @@ const VoiceDashboard = () => {
     });
   };
 
-  // Calculate dashboard metrics
-  const totalActiveAgents = programData.reduce((sum, program) => 
-    sum + program.agents.filter(agent => agent.status === 'Active').length, 0
-  );
+  const totalMembersReached = [...programData.humanPrograms, ...programData.aiPrograms]
+    .reduce((sum, program) => sum + program.membersReached, 0);
 
-  const totalMembersReached = programData.reduce((sum, program) => 
-    sum + program.agents.reduce((agentSum, agent) => agentSum + agent.callsMade, 0), 0
-  );
+  const avgEngagementRate = [...programData.aiPrograms, ...programData.humanPrograms]
+    .reduce((sum, program) => sum + program.engagementRate, 0) / 
+    ([...programData.aiPrograms, ...programData.humanPrograms].length);
 
-  const avgOptInRate = programData.reduce((sum, program) => {
-    const programAgents = program.agents.length;
-    const programOptIn = program.agents.reduce((agentSum, agent) => agentSum + agent.optInRate, 0);
-    return sum + (programOptIn / programAgents);
-  }, 0) / programData.length;
+  const ProgramSection = ({ title, programs, icon: Icon, accentColor }) => (
+    <div className="mb-8">
+      <div className="flex items-center gap-2 mb-4">
+        <Icon className={`h-6 w-6 ${accentColor}`} />
+        <h2 className="text-xl font-bold">{title}</h2>
+      </div>
+      <div className="space-y-6">
+        {programs.map(program => (
+          <Card key={program.id} className={`border-l-4 ${accentColor.includes('blue') ? 'border-l-green-500' : 'border-l-gray-500'}`}>
+            <CardContent className="p-6">
+              <div className="flex justify-between items-start mb-4">
+                <div>
+                  <h3 className="font-semibold text-lg">{program.name}</h3>
+                  <p className="text-sm text-gray-500">{program.description}</p>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className={`px-3 py-1 rounded-full text-sm font-medium ${getStatusColor(program.status)}`}>
+                    {program.status}
+                  </span>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+                <div>
+                  <p className="text-sm text-gray-500">Start Date</p>
+                  <p className="font-medium">{formatDate(program.startDate)}</p>
+                </div>
+                <div>
+                  <p className="text-sm text-gray-500">End Date</p>
+                  <p className="font-medium">{formatDate(program.endDate)}</p>
+                </div>
+                <div>
+                  <p className="text-sm text-gray-500">Engagement Rate</p>
+                  <p className="font-medium">{program.engagementRate}%</p>
+                </div>
+                <div>
+                  <p className="text-sm text-gray-500">Members Reached</p>
+                  <p className="font-medium">{program.membersReached.toLocaleString()}</p>
+                </div>
+              </div>
+
+              <div>
+                <p className="text-sm text-gray-500 mb-2">Target Cohorts</p>
+                <div className="flex flex-wrap gap-2">
+                  {program.targetCohorts.map((cohort, index) => (
+                    <span key={index} className="bg-blue-50 text-blue-700 px-2 py-1 rounded-md text-sm">
+                      {cohort}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+    </div>
+  );
 
   return (
     <div className="p-6 max-w-7xl mx-auto">
       <div className="mb-6">
-        <h1 className="text-2xl font-bold mb-2">Voice Dashboard</h1>
+        <h1 className="text-2xl font-bold mb-2">Program Dashboard</h1>
       </div>
 
-      {/* Summary Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
         <Card>
           <CardContent className="pt-4">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-gray-500">Total Active Agents</p>
-                <p className="text-2xl font-bold">{totalActiveAgents}</p>
+                <p className="text-sm text-gray-500">Active Programs</p>
+                <p className="text-2xl font-bold">{programData.aiPrograms.length + programData.humanPrograms.length}</p>
               </div>
-              <Battery className="h-8 w-8 text-blue-500" />
+              <Layers className="h-8 w-8 text-blue-500" />
             </div>
           </CardContent>
         </Card>
@@ -138,7 +170,7 @@ const VoiceDashboard = () => {
                 <p className="text-sm text-gray-500">Total Members Reached</p>
                 <p className="text-2xl font-bold">{totalMembersReached.toLocaleString()}</p>
               </div>
-              <Phone className="h-8 w-8 text-blue-500" />
+              <Users className="h-8 w-8 text-blue-500" />
             </div>
           </CardContent>
         </Card>
@@ -147,97 +179,28 @@ const VoiceDashboard = () => {
           <CardContent className="pt-4">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-gray-500">Avg Opt-in Rate</p>
-                <p className="text-2xl font-bold">{avgOptInRate.toFixed(1)}%</p>
+                <p className="text-sm text-gray-500">Avg Engagement Rate</p>
+                <p className="text-2xl font-bold">{avgEngagementRate.toFixed(1)}%</p>
               </div>
-              <Users className="h-8 w-8 text-blue-500" />
+              <Phone className="h-8 w-8 text-blue-500" />
             </div>
           </CardContent>
         </Card>
       </div>
 
-      {/* Active Programs */}
-      <div className="space-y-6">
-        {programData.map(program => (
-          <Card key={program.id} className="overflow-hidden">
-            <CardContent className="p-6">
-              {/* Program Header */}
-              <div className="flex justify-between items-start mb-4">
-                <div>
-                  <h3 className="font-semibold text-lg">{program.name}</h3>
-                  <p className="text-sm text-gray-500">{program.description}</p>
-                </div>
-                <span className={`px-3 py-1 rounded-full text-sm font-medium ${getStatusColor(program.status)}`}>
-                  {program.status}
-                </span>
-              </div>
+      <ProgramSection 
+        title="Call Campaigns" 
+        programs={programData.humanPrograms} 
+        icon={Headset}
+        accentColor="text-gray-500"
+      />
 
-              {/* Program Details */}
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-                <div>
-                  <p className="text-sm text-gray-500">Start Date</p>
-                  <p className="font-medium">{formatDate(program.startDate)}</p>
-                </div>
-                <div>
-                  <p className="text-sm text-gray-500">End Date</p>
-                  <p className="font-medium">{formatDate(program.endDate)}</p>
-                </div>
-                <div className="col-span-2">
-                  <p className="text-sm text-gray-500">Target Cohorts</p>
-                  <div className="flex flex-wrap gap-2 mt-1">
-                    {program.targetCohorts.map((cohort, index) => (
-                      <span key={index} className="bg-blue-50 text-blue-700 px-2 py-1 rounded-md text-sm">
-                        {cohort}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              </div>
-
-              {/* Agents Grid */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {program.agents.map(agent => (
-                  <Card key={agent.id} className="bg-gray-50">
-                    <CardContent className="p-4">
-                      <div className="flex items-center justify-between mb-4">
-                        <div className="flex items-center gap-2">
-                          {agent.type === 'AI' ? (
-                            <Monitor className="h-5 w-5 text-blue-500" />
-                          ) : (
-                            <PersonStanding className="h-5 w-5 text-green-500" />
-                          )}
-                          <span className="font-medium">{agent.name}</span>
-                        </div>
-                        <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(agent.status)}`}>
-                          {agent.status}
-                        </span>
-                      </div>
-                      <div className="grid grid-cols-2 gap-3 text-sm">
-                        <div>
-                          <p className="text-gray-500">Calls Made</p>
-                          <p className="font-medium">{agent.callsMade.toLocaleString()} / {agent.totalCalls.toLocaleString()}</p>
-                        </div>
-                        <div>
-                          <p className="text-gray-500">Avg Call Length</p>
-                          <p className="font-medium">{agent.avgCallLength}</p>
-                        </div>
-                        <div>
-                          <p className="text-gray-500">Opt-in Rate</p>
-                          <p className="font-medium">{agent.optInRate}%</p>
-                        </div>
-                        <div>
-                          <p className="text-gray-500">Answer Rate</p>
-                          <p className="font-medium">{agent.answerRate}%</p>
-                        </div>
-                      </div>
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
+      <ProgramSection 
+        title="Voice AI Campaigns" 
+        programs={programData.aiPrograms} 
+        icon={Monitor}
+        accentColor="text-gray-500"
+      />
     </div>
   );
 };
