@@ -12,49 +12,46 @@ const HomePage = () => {
     return 'Good Evening';
   };
 
-  // Updated metrics data
+  // Updated metrics data to focus on retention
   const metrics = {
-    eligiblePopulation: 2000000,
-    enrolledPopulation: 21453,
-    enrollmentPotential: 25
+    activeMembers: 200000,
+    retainedMembers: 184500,
+    retentionRate: 78
   };
 
-
-  // Campaign data
-// Campaign data
-const campaignData = [
-  {
-    name: 'Diabetes Care Onboarding 2025',
-    status: 'Active',
-    engagement: 45,
-    channelType: 'email',
-    reached: 15025,
-    cohorts: ['Unmanaged A1C', 'Lifestyle Change Ready'],
-    description: 'Active welcome series for newly identified diabetes members',
-    potentialMembers: 18000
-  },
-  {
-    name: 'Diabetes Management Program',
-    status: 'Active',
-    engagement: 67,
-    channelType: 'voice',
-    reached: 60102,
-    cohorts: ['Digital Engagement', 'Mental Health Comorbidity'],
-    description: 'Comprehensive diabetes care and monitoring program',
-    potentialMembers: 75000
-  },
-  {
-    name: 'Diabetes Annual Checkup',
-    status: 'Active',
-    engagement: 50,
-    channelType: 'email',
-    reached: 50009,
-    cohorts: ['Rural Markets', 'SDOH Challenges'],
-    description: 'Regular diabetes care appointment and A1C testing reminders',
-    potentialMembers: 120000
-  }
-];
-
+  // Updated campaign data for mental health, fitness, and annual checkup
+  const campaignData = [
+    {
+      name: 'Mental Health Enrollment 2025',
+      status: 'Active',
+      engagement: 38,
+      channelType: 'multi',
+      reached: 25430,
+      cohorts: ['Depression Risk', 'Anxiety Symptoms'],
+      description: 'Proactive mental health support and therapy enrollment campaign',
+      potentialMembers: 45000
+    },
+    {
+      name: 'Fitness Program Enrollment',
+      status: 'Active',
+      engagement: 55,
+      channelType: 'email',
+      reached: 35890,
+      cohorts: ['Sedentary Lifestyle', 'Weight Management'],
+      description: 'Digital fitness program with personalized workout plans',
+      potentialMembers: 80000
+    },
+    {
+      name: 'Annual Wellness Checkup',
+      status: 'Active',
+      engagement: 42,
+      channelType: 'voice',
+      reached: 98760,
+      cohorts: ['Preventive Care Due', 'High Risk Members'],
+      description: 'Annual wellness visit scheduling and preventive care reminders',
+      potentialMembers: 150000
+    }
+  ];
 
   const [showAll, setShowAll] = useState(false);
   const displayedCampaigns = showAll ? campaignData : campaignData.slice(0, 3);
@@ -78,7 +75,7 @@ const campaignData = [
     <div className="p-6 max-w-6xl mx-auto space-y-6">
       {/* Greeting */}
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold">{getGreeting()}, Anmol</h1>
+        <h1 className="text-2xl font-bold">{getGreeting()}, Kirk</h1>
         <span className="text-sm text-gray-500">
           {new Date().toLocaleDateString('en-US', { 
             weekday: 'long', 
@@ -89,15 +86,15 @@ const campaignData = [
         </span>
       </div>
 
-      {/* Main Metrics */}
+      {/* Main Metrics - Updated for Retention */}
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
         <Card>
           <CardContent className="pt-6">
             <div className="flex items-center space-x-4">
               <Users className="w-8 h-8 text-blue-500" />
               <div>
-                <p className="text-sm font-medium text-gray-800">Total Eligible Population</p>
-                <h3 className="text-2xl font-bold">{metrics.eligiblePopulation.toLocaleString()}</h3>
+                <p className="text-sm font-medium text-gray-800">Active Members</p>
+                <h3 className="text-2xl font-bold">{metrics.activeMembers.toLocaleString()}</h3>
               </div>
             </div>
           </CardContent>
@@ -108,10 +105,8 @@ const campaignData = [
             <div className="flex items-center space-x-4">
               <Activity className="w-8 h-8 text-blue-500" />
               <div>
-                <p className="text-sm font-medium text-gray-800">Total Enrolled</p>
-                <h3 className="text-2xl font-bold">{metrics.enrolledPopulation.toLocaleString()}
-                <p className="text-sm font-medium text-gray-400">~5%</p>
-                </h3>
+                <p className="text-sm font-medium text-gray-800">Member Retention</p>
+                <h3 className="text-2xl font-bold">{metrics.retainedMembers.toLocaleString()}</h3>
               </div>
             </div>
           </CardContent>
@@ -122,9 +117,8 @@ const campaignData = [
             <div className="flex items-center space-x-4">
               <TrendingUp className="w-8 h-8 text-blue-500" />
               <div>
-                <p className="text-sm font-medium text-gray-800">Enrollment Potential</p>
-                <h3 className="text-2xl font-bold">{metrics.enrollmentPotential}%</h3>
-                <p className="text-sm font-sm text-gray-400">AI analysis of the member data to forecast enrollment</p>
+                <p className="text-sm font-medium text-gray-800">Retention Rate</p>
+                <h3 className="text-2xl font-bold">{metrics.retentionRate}%</h3>
               </div>
             </div>
           </CardContent>
@@ -132,76 +126,65 @@ const campaignData = [
       </div>
 
       {/* Active Campaigns Section */}
-   <Card>
-      <CardContent className="p-6">
-        <div className="flex items-center justify-between mb-6">
-          <div className="flex items-center space-x-2">
-            <h2 className="text-xl font-semibold">Current Active Campaigns</h2>
+      <Card>
+        <CardContent className="p-6">
+          <div className="flex items-center justify-between mb-6">
+            <div className="flex items-center space-x-2">
+              <h2 className="text-xl font-semibold">Current Active Campaigns</h2>
+            </div>
+            <div className="text-sm text-gray-500">
+              Updated {new Date().toLocaleTimeString()}
+            </div>
           </div>
-          <div className="text-sm text-gray-500">
-            Updated {new Date().toLocaleTimeString()}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {displayedCampaigns.map((campaign) => (
+              <Card key={campaign.name} className="hover:shadow-lg transition-shadow">
+                <CardContent className="p-4">
+                  <div className="flex justify-between items-center mb-2">
+                    <h3 className="font-semibold">{campaign.name}</h3>
+                    <span className={`px-2 py-1 rounded-full text-xs ${
+                      campaign.status === 'Active' ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'
+                    }`}>
+                      {campaign.status}
+                    </span>
+                  </div>
+                  <div className="space-y-3">
+                    <div className="text-sm">
+                      <span className="text-gray-600">Target Cohorts:</span>
+                      <div className="flex flex-wrap gap-2 mt-1">
+                        {campaign.cohorts.map((cohort) => (
+                          <span 
+                            key={cohort} 
+                            className="px-2 py-1 rounded-full text-xs bg-blue-100 text-blue-800"
+                          >
+                            {cohort}
+                          </span>
+                        ))}
+                      </div>
+                      <p className="font-light mt-1">{campaign.description}</p>
+                    </div>
+                    <div className="flex items-center space-x-2 text-sm">
+                      <span>Channel:</span>
+                      {getChannelIcon(campaign.channelType)}
+                      <span className="capitalize">{campaign.channelType}</span>
+                    </div>
+                    <div className="flex justify-between text-sm">
+                      <span>Engagement Rate</span>
+                      <span className="font-medium">{campaign.engagement}%</span>
+                    </div>
+                    <div className="flex justify-between text-sm">
+                      <span>Members Reached</span>
+                      <span className="font-medium">{campaign.reached.toLocaleString()}</span>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
           </div>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {displayedCampaigns.map((campaign) => (
-            <Card key={campaign.name} className="hover:shadow-lg transition-shadow">
-              <CardContent className="p-4">
-                <div className="flex justify-between items-center mb-2">
-                  <h3 className="font-semibold">{campaign.name}</h3>
-                  <span className={`px-2 py-1 rounded-full text-xs ${
-                    campaign.status === 'Active' ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'
-                  }`}>
-                    {campaign.status}
-                  </span>
-                </div>
-                <div className="space-y-3">
-                <div className="text-sm">
-  <span className="text-gray-600">Target Cohorts:</span>
-  <div className="flex flex-wrap gap-2 mt-1">
-    {campaign.cohorts.map((cohort) => (
-      <span 
-        key={cohort} 
-        className="px-2 py-1 rounded-full text-xs bg-blue-100 text-blue-800"
-      >
-        {cohort}
-      </span>
-    ))}
-  </div>
-  <p className="font-light mt-1">{campaign.description}</p>
-</div>
-                  <div className="flex items-center space-x-2 text-sm">
-                    <span>Channel:</span>
-                    {getChannelIcon(campaign.channelType)}
-                    <span className="capitalize">{campaign.channelType}</span>
-                  </div>
-                  <div className="flex justify-between text-sm">
-                    <span>Engagement Rate</span>
-                    <span className="font-medium">{campaign.engagement}%</span>
-                  </div>
-                  <div className="flex justify-between text-sm">
-                    <span>Members Reached</span>
-                    <span className="font-medium">{campaign.reached.toLocaleString()}</span>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-        {campaignData.length > 3 && (
-          <div className="flex justify-center mt-6">
-            <Button
-              variant="outline"
-              onClick={() => setShowAll(!showAll)}
-              className="text-blue-600 hover:text-blue-700"
-            >
-              {showAll ? 'Show Less' : 'See More'}
-            </Button>
-          </div>
-        )}
-      </CardContent>
-    </Card>
+        </CardContent>
+      </Card>
 
-      {/* Rest of the dashboard remains the same */}
+      {/* Data Warehouse and SFMC Export Status sections remain unchanged */}
       <div className="grid gap-4 md:grid-cols-2">
         <Card>
           <CardContent className="p-6">

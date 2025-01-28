@@ -10,10 +10,10 @@ import PrediabetesMap from "@/app/PrediabetesMap";
 // Mock data for the charts
 const mockData = {
   ageDistribution: [
-    { age: '45-50', value: 25 },
-    { age: '51-55', value: 30 },
-    { age: '56-60', value: 28 },
-    { age: '61-65', value: 17 },
+    { age: '65-70', value: 25 },
+    { age: '71-75', value: 30 },
+    { age: '76-80', value: 28 },
+    { age: '81-85', value: 17 },
   ],
   funnelMetrics: [
     { stage: "Total Cohort Size", value: "450,000", percentage: "22.5%" },

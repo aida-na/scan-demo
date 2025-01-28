@@ -51,47 +51,44 @@ const CampaignDashboard = () => {
       id: 1,
       name: "Prediabetes Risk",
       description: "Members with elevated blood glucose levels not yet diagnosed with diabetes",
-      size: 450000,
+      size: 8750,
       enrollmentRate: 4.2,
-      enrollmentPotential: 52088,
+      enrollmentPotential: 2100,
       engagement: "Medium",
       tags: ["Priority", "Early Intervention"],
       aiRecommended: true
     },
     {
       id: 2,
-      name: "Unmanaged A1C",
-      description: "Diagnosed members with A1C > 8.0% in past 6 months",
-      size: 180000,
-      enrollmentRate: 6.5,
-      enrollmentPotential: 64109,
+      name: "Medication Non-Adherence",
+      description: "Members showing irregular medication refill patterns",
+      size: 7000,
+      enrollmentRate: 3.8,
+      enrollmentPotential: 1800,
       engagement: "Low",
-      success_rate: "82%",
-      tags: ["Urgent", "Care Gap", "High Risk"],
+      tags: ["Urgent", "Care Gap"],
       aiRecommended: true
     },
     {
       id: 3,
-      name: "Rural Markets",
-      description: "Members in rural areas with limited access to in-person care",
-      size: 320000,
-      enrollmentRate: 3.8,
-      enrollmentPotential: 48082,
-      engagement: "High",
-      growth: "68%",
-      tags: ["Access Barriers", "Telehealth Priority"],
-      aiRecommended: false
+      name: "Missed Appointments",
+      description: "Members who missed 2+ appointments in last 6 months",
+      size: 5250,
+      enrollmentRate: 3.5,
+      enrollmentPotential: 1400,
+      engagement: "Medium",
+      tags: ["Care Gap", "High Risk"],
+      aiRecommended: true
     },
     {
       id: 4,
-      name: "SDOH Challenges",
-      description: "Members with food access or mobility barriers",
-      size: 280000,
-      enrollmentRate: 3.5,
-      enrollmentPotential: 44075,
+      name: "High A1C Volatility",
+      description: "Members with unstable A1C readings",
+      size: 4200,
+      enrollmentRate: 3.9,
+      enrollmentPotential: 1100,
       engagement: "High",
-      success_rate: "91%",
-      tags: ["Social Support", "Critical"],
+      tags: ["Critical", "High Risk"],
       aiRecommended: true
     }
   ];
@@ -141,60 +138,60 @@ const CampaignDashboard = () => {
   // Keep existing campaign goals and journey data...
   const campaignGoals = [
     {
-      id: 'diabetes-enroll',
-      title: 'Diabetes Program Enrollment',
-      description: 'Drive enrollment in comprehensive diabetes management and prevention programs for at-risk and diagnosed members'
+      id: 'mental-health-enroll',
+      title: 'Mental Health Enrollment 2025',
+      description: 'Drive enrollment in comprehensive mental health management and prevention programs for at-risk and diagnosed members'
     },
     {
-      id: 'diabetes-engage',
-      title: 'Diabetes Care Engagement',
-      description: 'Increase active participation in blood glucose monitoring, medication adherence, and regular check-ups'
+      id: 'fitness-engage',
+      title: 'Fitness Program Enrollment',
+      description: 'Increase active participation in fitness programs, workout adherence, and regular exercise'
+    },
+    {
+      id: 'wellness-checkup',
+      title: 'Annual Wellness Checkup',
+      description: 'Promote preventive care awareness and regular health screenings through targeted education'
     },
     {
       id: 'diabetes-retain',
-      title: 'Diabetes Program Retention',
+      title: 'Diabetes Care Retention Program',
       description: 'Strengthen long-term participation in diabetes care programs through personalized support and continuous care'
-    },
-    {
-      id: 'diabetes-educate',
-      title: 'Diabetes Health Education',
-      description: 'Promote diabetes self-management skills and preventive care awareness through targeted education'
     }
   ];
 
   const existingJourneys = [
     {
-      id: 'diabetes-onboarding-2024',
-      name: 'Diabetes Care Onboarding 2025',
-      description: 'Active welcome series for newly identified diabetes members',
-      activeMembers: 15025, // ~15% of enrolled population
+      id: 'mental-health-2025',
+      name: 'Mental Health Enrollment 2025',
+      description: 'Proactive mental health support and therapy enrollment campaign',
+      activeMembers: 25430, // Based on reached members
       status: 'active',
       lastModified: '2024-03-15'
     },
     {
-      id: 'diabetes-management-q1',
-      name: 'Diabetes Management Program',
-      description: 'Comprehensive diabetes care and monitoring program',
-      activeMembers: 60102, // ~60% of enrolled population
+      id: 'fitness-program',
+      name: 'Fitness Program Enrollment',
+      description: 'Digital fitness program with personalized workout plans',
+      activeMembers: 35890, // Based on reached members
       status: 'active',
-      lastModified: '2024-02-28'
+      lastModified: '2024-03-01'
     },
     {
-      id: 'diabetes-complications',
-      name: 'Diabetes Program Enrollment 2025',
-      description: 'Drive enrollment in comprehensive diabetes management and prevention',
-      activeMembers: 100170, // ~100% of enrolled population
+      id: 'annual-wellness',
+      name: 'Annual Wellness Checkup',
+      description: 'Annual wellness visit scheduling and preventive care reminders',
+      activeMembers: 98760, // Based on reached members
       status: 'active',
-      lastModified: '2024-03-10'
+      lastModified: '2024-02-15'
     },
     {
-      id: 'diabetes-wellness',
-      name: 'Diabetes Annual Checkup',
-      description: 'Regular diabetes care appointment and A1C testing reminders',
-      activeMembers: 5009, // ~5% of enrolled population
+      id: 'diabetes-retention',
+      name: 'Diabetes Care Retention Program',
+      description: 'Engagement and retention program for existing diabetes care members',
+      activeMembers: 35000,
       status: 'active',
-      lastModified: '2024-01-15'
-    }  
+      lastModified: '2024-03-20'
+    }
   ];
 
   const channelOptions = [
@@ -216,7 +213,7 @@ const CampaignDashboard = () => {
     },
     {
       id: 'voice',
-      name: 'Voice AI Call',
+      name: 'Voice Call',
       description: 'Perfect for complex communications requiring interaction',
       metrics: { answerRate: '65%', completionRate: '58%' },
       cost: 'High',
@@ -344,7 +341,7 @@ const CampaignDashboard = () => {
               <Alert className="bg-blue-50 border-blue-200">
                 <Sparkles className="w-4 h-4" />
                 <AlertDescription>
-                  Based on your selected goal, we've highlighted recommended cohorts based on their potential enrollment size
+                  Based on your selected goal, we've highlighted recommended cohorts based on their retention opportunity
                 </AlertDescription>
               </Alert>
               <div className="grid grid-cols-2 gap-4">
@@ -364,7 +361,7 @@ const CampaignDashboard = () => {
                     </div>
                     <div className="flex gap-20 text-sm">
                       <span>Size: {cohort.size}</span>
-                      <p className="text-sm text-green-800"> Enrollement potential: +{cohort.enrollmentPotential}</p>
+                      <p className="text-sm text-green-800"> Retention potential: +{cohort.enrollmentPotential}</p>
                     </div>
                   </div>
                 ))}
