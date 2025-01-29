@@ -2,5 +2,6 @@
   "/favicon.ico/route": "app/favicon.ico/route.js",
   "/voice/page": "app/voice/page.js",
   "/page": "app/page.js",
-  "/voice-campaigns/page": "app/voice-campaigns/page.js"
+  "/voice-campaigns/page": "app/voice-campaigns/page.js",
+  "/summary/page": "app/summary/page.js"
 }

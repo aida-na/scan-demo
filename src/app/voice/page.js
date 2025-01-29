@@ -98,7 +98,11 @@ const VoiceDashboard = () => {
             <CardContent className="p-6">
               <div className="flex justify-between items-start mb-4">
                 <div>
-                  <h3 className="font-semibold text-lg">{program.name}</h3>
+                  <h3 className="font-semibold text-lg">
+                    <a href="/voice-campaigns" className="hover:text-blue-600 hover:underline">
+                      {program.name}
+                    </a>
+                  </h3>
                   <p className="text-sm text-gray-500">{program.description}</p>
                 </div>
                 <div className="flex items-center gap-2">
@@ -147,7 +151,7 @@ const VoiceDashboard = () => {
   return (
     <div className="p-6 max-w-7xl mx-auto">
       <div className="mb-6">
-        <h1 className="text-2xl font-bold mb-2">Program Dashboard</h1>
+        <h1 className="text-2xl font-bold mb-2">Voice Campaigns Dashboard</h1>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">

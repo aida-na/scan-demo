@@ -13,6 +13,17 @@ const ProgramDetails = () => {
     { name: 'Medication Non-Adherence', value: 5130, color: '#6366F1' }
   ];
 
+  const renderMemberId = (memberId) => {
+    if (memberId === "MEM-2024-045") {
+      return (
+        <a href="/summary" className="text-blue-600 hover:text-blue-800 hover:underline">
+          {memberId}
+        </a>
+      );
+    }
+    return memberId;
+  };
+
   // Weekly trend data
   const weeklyTrendData = [
     { week: 'Week 1', calls: 850, answered: 380 },
@@ -252,7 +263,7 @@ const ProgramDetails = () => {
       </Card>
 
       {/* Upcoming Calls */}
-      <Card>
+<Card>
         <CardHeader>
           <CardTitle>Upcoming Calls</CardTitle>
         </CardHeader>
@@ -272,11 +283,13 @@ const ProgramDetails = () => {
               <tbody className="bg-white divide-y divide-gray-200">
                 {upcomingCalls.map((call) => (
                   <tr key={call.id}>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{call.memberId}</td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                      {renderMemberId(call.memberId)}
+                    </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{call.scheduledDate}</td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{call.scheduledTime}</td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <span className={`px-2 py-1 rounded-full text-xs font-medium}`}>
+                      <span className={`px-2 py-1 rounded-full text-xs font-medium ${getPriorityColor(call.priority)}`}>
                         {call.priority}
                       </span>
                     </td>
