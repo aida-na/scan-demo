@@ -14,7 +14,7 @@ const VoiceDashboard = () => {
         startDate: '2025-01-01',
         endDate: '2025-12-31',
         targetCohorts: ['Missed Appointments', 'Limited Provider Contact', 'Medication Non-Adherence'],
-        description: 'Proactive mental health support and therapy enrollment campaign',
+        description: 'New member retention program with personalized outreach',
         channel: 'multi',
         engagementRate: 38,
         membersReached: 10430,
@@ -44,7 +44,7 @@ const VoiceDashboard = () => {
         description: 'Annual wellness visit scheduling and preventive care reminders',
         channel: 'voice',
         engagementRate: 42,
-        membersReached: 98760,
+        membersReached: 18760,
         agents: [
           {
             id: 1,

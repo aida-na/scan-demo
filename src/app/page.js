@@ -15,24 +15,24 @@ const HomePage = () => {
   // Updated metrics data to focus on retention
   const metrics = {
     activeMembers: 200000,
-    retainedMembers: 184500,
+    retainedMembers: 20000,
     retentionRate: 90
   };
 
   // Updated campaign data for mental health, fitness, and annual checkup
   const campaignData = [
     {
-      name: 'Mental Health Enrollment 2025',
+      name: 'New Member Retention 2025',
       status: 'Active',
       engagement: 38,
-      channelType: 'multi',
-      reached: 25430,
-      cohorts: ['Depression Risk', 'Anxiety Symptoms'],
-      description: 'Proactive mental health support and therapy enrollment campaign',
-      potentialMembers: 45000
+      channelType: 'voice',
+      reached: 10430,
+      cohorts: ['Missed Appointments', 'Limited Provider Contact', 'Medication Non-Adherence'],
+      description: 'New member retention program with personalized outreach',
+      potentialMembers: 20000
     },
     {
-      name: 'Fitness Program Enrollment',
+      name: 'Silver Sneakers Enrollment',
       status: 'Active',
       engagement: 55,
       channelType: 'email',
@@ -45,8 +45,8 @@ const HomePage = () => {
       name: 'Annual Wellness Checkup',
       status: 'Active',
       engagement: 42,
-      channelType: 'voice',
-      reached: 98760,
+      channelType: 'multi',
+      reached: 18760,
       cohorts: ['Preventive Care Due', 'High Risk Members'],
       description: 'Annual wellness visit scheduling and preventive care reminders',
       potentialMembers: 150000

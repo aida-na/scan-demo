@@ -1,62 +1,71 @@
-
 "use client";
 
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
-import { Users, TrendingUp, Activity, Target, Map, Calculator, ChartBar, Heart } from 'lucide-react';
-import PrediabetesMap from "@/app/PrediabetesMap";
+import { BarChart, Bar, PieChart, Pie, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, Cell } from 'recharts';
+import { Users, Calendar, Clock, AlertCircle, MapPin, PhoneCall, CarFront, Stethoscope } from 'lucide-react';
 
 // Mock data for the charts
 const mockData = {
   ageDistribution: [
-    { age: '65-70', value: 25 },
-    { age: '71-75', value: 30 },
-    { age: '76-80', value: 28 },
-    { age: '81-85', value: 17 },
+    { age: '65-70', value: 32 },
+    { age: '71-75', value: 28 },
+    { age: '76-80', value: 25 },
+    { age: '81-85', value: 15 },
+  ],
+  appointmentTypes: [
+    { name: 'PCP Visits', value: 42 },
+    { name: 'Specialist', value: 35 },
+    { name: 'Labs', value: 15 },
+    { name: 'Screenings', value: 8 },
   ],
   funnelMetrics: [
-    { stage: "Total Cohort Size", value: "450,000", percentage: "22.5%" },
-    { stage: "Current Enrollment", value: "18,900", percentage: "4.2%" },
-    { stage: "Potential with Personalization", value: "71,100", percentage: "15.8%" },
-    { stage: "Potential New Enrollment", value: "+52,088", percentage: "Growth" }
+    { stage: "Total Cohort Size", value: "5,250", subtext: "15% of eligible" },
+    { stage: "Current Retention Rate", value: "64%", subtext: "Below target" },
+    { stage: "Expected Churn", value: "1,890", subtext: "36% of cohort" },
+    { stage: "Retention Opportunity", value: "+1,103", subtext: "Through personalized intervention" }
   ]
 };
+
+const COLORS = ['#2563eb', '#3b82f6', '#60a5fa', '#93c5fd'];
 
 const CohortDetailsDashboard = () => {
   return (
     <div className="p-6">
       <div className="mb-8">
-        <h1 className="text-3xl font-bold mb-4">Prediabetes Risk Members</h1>
-        <Card className="bg-orange-50">
+        <h1 className="text-3xl font-bold mb-4">Missed Appointments Members</h1>
+        <Card className="bg-blue-50">
           <CardContent className="pt-6">
             <h3 className="text-lg font-semibold mb-3">Cohort Definition</h3>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <div>
                 <h4 className="font-medium mb-2">Clinical Profile:</h4>
                 <ul className="list-disc pl-5 space-y-1">
-                  <li>Elevated blood glucose levels</li>
-                  <li>A1C between 5.7% and 6.4%</li>
-                  <li>Fasting glucose 100-125 mg/dL</li>
-                  <li>No current diabetes diagnosis</li>
+                  <li>Multiple chronic conditions (avg. 2.8)</li>
+                  <li>Higher HbA1c variability (±0.8%)</li>
+                  <li>Medication adherence below 70%</li>
+                  <li>Preventive screening gaps</li>
+                  <li>Higher ED utilization (+25%)</li>
                 </ul>
               </div>
               <div>
-                <h4 className="font-medium mb-2">Risk Factors:</h4>
+                <h4 className="font-medium mb-2">Appointment Patterns:</h4>
                 <ul className="list-disc pl-5 space-y-1">
-                  <li>BMI ≥ 25</li>
-                  <li>Family history of diabetes</li>
-                  <li>Sedentary lifestyle indicators</li>
-                  <li>History of gestational diabetes</li>
+                  <li>2+ missed appointments in 6 months</li>
+                  <li>48% same-day cancellations</li>
+                  <li>Avg. 32 days between reschedules</li>
+                  <li>75% specialist appointment gaps</li>
+                  <li>Irregular follow-up compliance</li>
                 </ul>
               </div>
               <div>
-                <h4 className="font-medium mb-2">Monitoring Status:</h4>
+                <h4 className="font-medium mb-2">Digital Engagement:</h4>
                 <ul className="list-disc pl-5 space-y-1">
-                  <li>Annual A1C screening</li>
-                  <li>Quarterly glucose monitoring</li>
-                  <li>Regular BMI tracking</li>
-                  <li>Lifestyle assessment needed</li>
+                  <li>38% portal activation rate</li>
+                  <li>22% use mobile app regularly</li>
+                  <li>45% opt-in to text reminders</li>
+                  <li>15% telehealth utilization</li>
+                  <li>Low digital literacy scores</li>
                 </ul>
               </div>
             </div>
@@ -67,7 +76,7 @@ const CohortDetailsDashboard = () => {
       <div className="grid grid-cols-1 gap-6 mb-8">
         <Card>
           <CardHeader>
-            <CardTitle>Enrollment Funnel & Potential</CardTitle>
+            <CardTitle>Cohort Metrics</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
@@ -75,16 +84,13 @@ const CohortDetailsDashboard = () => {
                 <div 
                   key={index} 
                   className={`p-4 rounded-lg ${
-                    index === 0 ? 'bg-orange-100' : 
-                    index === 1 ? 'bg-orange-200' : 
-                    index === 2 ? 'bg-orange-300' : 
-                    'bg-green-300'
+                    index === 3 ? 'bg-green-100' : 'bg-blue-100'
                   }`}
                 >
                   <div className="text-sm font-medium mb-1">{metric.stage}</div>
                   <div className="text-2xl font-bold">{metric.value}</div>
                   <div className="text-sm font-medium mt-1 text-gray-700">
-                    {metric.percentage}
+                    {metric.subtext}
                   </div>
                 </div>
               ))}
@@ -94,19 +100,6 @@ const CohortDetailsDashboard = () => {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-        <Card>
-          <CardHeader>
-            <div className="flex items-center gap-2">
-              <CardTitle>Geographic Distribution</CardTitle>
-            </div>
-          </CardHeader>
-          <CardContent>
-            <div className="w-full aspect-[2/1] min-h-[300px]">
-              <PrediabetesMap />
-            </div>
-          </CardContent>
-        </Card>
-
         <Card>
           <CardHeader>
             <CardTitle>Age Distribution</CardTitle>
@@ -119,8 +112,35 @@ const CohortDetailsDashboard = () => {
                 <YAxis />
                 <Tooltip />
                 <Legend />
-                <Bar dataKey="value" fill="#f97316" />
+                <Bar dataKey="value" fill="#2563eb" />
               </BarChart>
+            </ResponsiveContainer>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle>Missed Appointment Distribution</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <ResponsiveContainer width="100%" height={300}>
+              <PieChart>
+                <Pie
+                  data={mockData.appointmentTypes}
+                  cx="50%"
+                  cy="50%"
+                  labelLine={true}
+                  label={({name, percent}) => `${name} ${(percent * 100).toFixed(0)}%`}
+                  outerRadius={100}
+                  fill="#8884d8"
+                  dataKey="value"
+                >
+                  {mockData.appointmentTypes.map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                  ))}
+                </Pie>
+                <Tooltip />
+              </PieChart>
             </ResponsiveContainer>
           </CardContent>
         </Card>

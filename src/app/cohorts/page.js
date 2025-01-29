@@ -51,25 +51,20 @@ const MetricCard = ({ title, value, subtitle, tooltip, valueColor = "text-gray-9
 
 const MetricSummaryCard = () => {
   const metrics = {
-    eligiblePopulation: 93000,
-    enrolledPopulation: 35000,
-    currentRetentionRate: 70,
-    yearlyChurn: 10500, // 30% of 35000
-    retentionImprovement: 15,
+    eligiblePopulation: 30000,
+    currentRetentionRate: 90,
+    yearlyChurn: Math.round(30000 * 0.1), // 10% of eligible population (30k)
+    retentionImprovement: 15
   };
 
+  const improvedMembers = Math.round(metrics.yearlyChurn * (metrics.retentionImprovement / 100));
+
   return (
-    <div className="grid grid-cols-5 gap-6 mb-8">
+    <div className="grid grid-cols-4 gap-6 mb-8">
       <MetricCard
-        title="Total Eligible Population"
+        title="Total New Eligible Population"
         value={metrics.eligiblePopulation.toLocaleString()}
-        tooltip="Total number of members eligible for the diabetes program"
-      />
-      <MetricCard
-        title="Total Enrolled"
-        value={metrics.enrolledPopulation.toLocaleString()}
-        subtitle={`${((metrics.enrolledPopulation / metrics.eligiblePopulation) * 100).toFixed(1)}% of eligible`}
-        tooltip="Current number of members enrolled in the diabetes program"
+        tooltip="Total number of new members"
       />
       <MetricCard
         title="Current Retention Rate"
@@ -79,15 +74,15 @@ const MetricSummaryCard = () => {
       <MetricCard
         title="Yearly Churn"
         value={metrics.yearlyChurn.toLocaleString()}
-        subtitle={`${((metrics.yearlyChurn / metrics.enrolledPopulation) * 100).toFixed(1)}% of enrolled`}
+        subtitle={`${((metrics.yearlyChurn / metrics.eligiblePopulation) * 100).toFixed(1)}% of eligible`}
         tooltip="Number of members expected to leave the program within a year"
       />
       <MetricCard
         title="Retention Improvement"
         value={`+${metrics.retentionImprovement}%`}
-        subtitle={`Up to ${metrics.currentRetentionRate + metrics.retentionImprovement}% total`}
+        subtitle={`${improvedMembers.toLocaleString()} more retained`}
         valueColor="text-green-600"
-        tooltip="Potential improvement in retention rate through targeted interventions"
+        tooltip="Potential improvement in retention through personalized interventions"
       />
     </div>
   );
@@ -109,7 +104,7 @@ const CohortCard = ({ cohort, onSelect, selected }) => {
               <div className="flex items-center">
                 {cohort.icon}
                 <div className="flex flex-col">
-                  {cohort.name === "Prediabetes Risk" ? (
+                  {cohort.name === "Missed Appointments" ? (
                     <a href="/insights" className="font-medium hover:text-blue-600 hover:underline">{cohort.name}</a>
                   ) : (
                     <span className="font-medium">{cohort.name}</span>
@@ -121,7 +116,7 @@ const CohortCard = ({ cohort, onSelect, selected }) => {
             <div className="text-sm text-gray-500">
               {cohort.size.toLocaleString()} members
               <span className="text-gray-400 ml-1">
-                ({((cohort.size / 35000) * 100).toFixed(1)}% of enrolled)
+                ({((cohort.size / 35000) * 100).toFixed(1)}% of eligible)
               </span>
             </div>
           </div>
@@ -204,83 +199,123 @@ const Dashboard = () => {
   const cohorts = [
     {
       id: 1,
-      name: "Prediabetes Risk",
-      description: "Members with elevated blood glucose levels not yet diagnosed with diabetes",
-      icon: <AlertCircle className="mr-2 text-blue-700" size={20} />,
-      size: 8750, // 25% of total enrolled
-      currentRetention: 65,
-      potentialChurn: 3063, // 35% of 8750
-      retentionOpportunity: 1750 // (85% - 65%) * 8750 = 1750 members
-    },
-    {
-      id: 2,
       name: "Medication Non-Adherence",
       description: "Members showing irregular medication refill patterns",
       icon: <Clock className="mr-2 text-blue-700" size={20} />,
-      size: 7000, // 20% of total enrolled
+      size: 7000,
       currentRetention: 62,
       potentialChurn: 2660,
-      retentionOpportunity: 1610 // (85% - 62%) * 7000 = 1610 members
+      retentionOpportunity: 1610
+    },
+    {
+      id: 2,
+      name: "New-Onset Chronic Conditions",
+      description: "Members diagnosed with new chronic conditions in past 90 days",
+      icon: <AlertCircle className="mr-2 text-blue-700" size={20} />,
+      size: 6300,
+      currentRetention: 63,
+      potentialChurn: 2331,
+      retentionOpportunity: 1386
     },
     {
       id: 3,
       name: "Missed Appointments",
       description: "Members who missed 2+ appointments in last 6 months",
       icon: <Calendar className="mr-2 text-blue-700" size={20} />,
-      size: 5250, // 15% of total enrolled
+      size: 5250,
       currentRetention: 64,
       potentialChurn: 1890,
-      retentionOpportunity: 1103 // (85% - 64%) * 5250 = 1103 members
+      retentionOpportunity: 1103
     },
     {
       id: 4,
-      name: "High A1C Volatility",
-      description: "Members with unstable A1C readings",
-      icon: <Activity className="mr-2 text-blue-700" size={20} />,
-      size: 4200, // 12% of total enrolled
-      currentRetention: 66,
-      potentialChurn: 1428,
-      retentionOpportunity: 798 // (85% - 66%) * 4200 = 798 members
+      name: "High-Risk Dual Eligibles",
+      description: "Dual Medicare-Medicaid members with complex care needs",
+      icon: <HeartPulse className="mr-2 text-blue-700" size={20} />,
+      size: 4900,
+      currentRetention: 61,
+      potentialChurn: 1911,
+      retentionOpportunity: 1176
     },
     {
       id: 5,
-      name: "Complex Care Needs",
-      description: "Members with multiple chronic conditions",
-      icon: <Stethoscope className="mr-2 text-blue-700" size={20} />,
-      size: 3500, // 10% of total enrolled
-      currentRetention: 68,
-      potentialChurn: 1120,
-      retentionOpportunity: 595 // (85% - 68%) * 3500 = 595 members
-    },
-    {
-      id: 6,
       name: "Limited Provider Contact",
       description: "Members with minimal provider interactions",
       icon: <Users className="mr-2 text-blue-700" size={20} />,
-      size: 2450, // 7% of total enrolled
+      size: 4200,
       currentRetention: 63,
-      potentialChurn: 907,
-      retentionOpportunity: 539 // (85% - 63%) * 2450 = 539 members
+      potentialChurn: 1554,
+      retentionOpportunity: 924
+    },
+    {
+      id: 6,
+      name: "Post-Acute Care Transitions",
+      description: "Recently discharged from hospital or skilled nursing",
+      icon: <Activity className="mr-2 text-blue-700" size={20} />,
+      size: 3850,
+      currentRetention: 66,
+      potentialChurn: 1309,
+      retentionOpportunity: 731
     },
     {
       id: 7,
-      name: "Recent Health Changes",
-      description: "Members with declining health indicators",
-      icon: <TrendingDown className="mr-2 text-blue-700" size={20} />,
-      size: 2100, // 6% of total enrolled
-      currentRetention: 65,
-      potentialChurn: 735,
-      retentionOpportunity: 420 // (85% - 65%) * 2100 = 420 members
+      name: "Limited English Proficiency",
+      description: "Members requiring language assistance services",
+      icon: <Users className="mr-2 text-blue-700" size={20} />,
+      size: 3500,
+      currentRetention: 67,
+      potentialChurn: 1155,
+      retentionOpportunity: 630
     },
     {
       id: 8,
-      name: "Program Disengagement",
-      description: "Members showing decreased program participation",
+      name: "Digital Navigation Challenges",
+      description: "Low digital literacy affecting telehealth/portal usage",
+      icon: <Brain className="mr-2 text-blue-700" size={20} />,
+      size: 3150,
+      currentRetention: 63,
+      potentialChurn: 1166,
+      retentionOpportunity: 693
+    },
+    {
+      id: 9,
+      name: "Social Isolation Risk",
+      description: "Members with limited social support network",
+      icon: <Users className="mr-2 text-blue-700" size={20} />,
+      size: 2800,
+      currentRetention: 62,
+      potentialChurn: 1064,
+      retentionOpportunity: 644
+    },
+    {
+      id: 10,
+      name: "Behavioral Health Needs",
+      description: "Members with untreated depression or anxiety",
+      icon: <Brain className="mr-2 text-blue-700" size={20} />,
+      size: 2450,
+      currentRetention: 60,
+      potentialChurn: 980,
+      retentionOpportunity: 613
+    },
+    {
+      id: 12,
+      name: "Care Coordination Gaps",
+      description: "Multiple providers with limited communication",
+      icon: <Stethoscope className="mr-2 text-blue-700" size={20} />,
+      size: 1750,
+      currentRetention: 64,
+      potentialChurn: 630,
+      retentionOpportunity: 368
+    },
+    {
+      id: 13,
+      name: "Benefit Utilization Issues",
+      description: "Low engagement with supplemental benefits",
       icon: <Clock4 className="mr-2 text-blue-700" size={20} />,
-      size: 1750, // 5% of total enrolled
-      currentRetention: 61,
-      potentialChurn: 683,
-      retentionOpportunity: 420 // (85% - 61%) * 1750 = 420 members
+      size: 1050,
+      currentRetention: 65,
+      potentialChurn: 368,
+      retentionOpportunity: 210
     }
   ];
 
@@ -296,7 +331,7 @@ const Dashboard = () => {
       <div className="p-6 max-w-6xl mx-auto">
         <div className="mb-8">
           <div className="flex justify-between items-center mb-4">
-            <h1 className="text-2xl font-bold">Smart Cohorts for Diabetes Program Retention</h1>
+            <h1 className="text-2xl font-bold">Smart Cohorts for New Member Retention</h1>
           </div>
           <div className="flex justify-end items-center mb-4">
             <button
