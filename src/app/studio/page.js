@@ -49,9 +49,9 @@ const CampaignDashboard = () => {
   const cohortOptions = [
     {
       id: 1,
-      name: "Prediabetes Risk",
-      description: "Members with elevated blood glucose levels not yet diagnosed with diabetes",
-      size: 8750,
+      name: "Medication Non-Adherence",
+      description: "Members showing irregular medication refill patterns",
+      size: 7000,
       enrollmentRate: 4.2,
       enrollmentPotential: 2100,
       engagement: "Medium",
@@ -60,9 +60,9 @@ const CampaignDashboard = () => {
     },
     {
       id: 2,
-      name: "Medication Non-Adherence",
-      description: "Members showing irregular medication refill patterns",
-      size: 7000,
+      name: "New-Onset Chronic Conditions",
+      description: "Members diagnosed with new chronic conditions in past 90 days",
+      size: 6300,
       enrollmentRate: 3.8,
       enrollmentPotential: 1800,
       engagement: "Low",
@@ -82,9 +82,9 @@ const CampaignDashboard = () => {
     },
     {
       id: 4,
-      name: "High A1C Volatility",
-      description: "Members with unstable A1C readings",
-      size: 4200,
+      name: "High-Risk Dual Eligibles",
+      description: "Dual Medicare-Medicaid members with complex care needs",
+      size: 4900,
       enrollmentRate: 3.9,
       enrollmentPotential: 1100,
       engagement: "High",
@@ -161,36 +161,56 @@ const CampaignDashboard = () => {
 
   const existingJourneys = [
     {
-      id: 'mental-health-2025',
-      name: 'Mental Health Enrollment 2025',
-      description: 'Proactive mental health support and therapy enrollment campaign',
-      activeMembers: 25430, // Based on reached members
-      status: 'active',
-      lastModified: '2024-03-15'
+      id: 'new-member-retention',
+      name: 'New Member Retention 2025',
+      description: 'New member retention program with personalized outreach',
+      activeMembers: 10430,
+      status: 'Active',
+      lastModified: '2024-03-15',
+      engagement: 38,
+      channelType: 'voice',
+      reached: 10430,
+      cohorts: ['Missed Appointments', 'Limited Provider Contact', 'Medication Non-Adherence'],
+      potentialMembers: 20000
     },
     {
-      id: 'fitness-program',
-      name: 'Fitness Program Enrollment',
+      id: 'silver-sneakers',
+      name: 'Silver Sneakers Enrollment',
       description: 'Digital fitness program with personalized workout plans',
-      activeMembers: 35890, // Based on reached members
-      status: 'active',
-      lastModified: '2024-03-01'
+      activeMembers: 35890,
+      status: 'Active',
+      lastModified: '2024-03-01',
+      engagement: 55,
+      channelType: 'email',
+      reached: 35890,
+      cohorts: ['Sedentary Lifestyle', 'Weight Management'],
+      potentialMembers: 80000
     },
     {
       id: 'annual-wellness',
       name: 'Annual Wellness Checkup',
       description: 'Annual wellness visit scheduling and preventive care reminders',
-      activeMembers: 98760, // Based on reached members
-      status: 'active',
-      lastModified: '2024-02-15'
+      activeMembers: 18760,
+      status: 'Active',
+      lastModified: '2024-02-15',
+      engagement: 42,
+      channelType: 'multi',
+      reached: 18760,
+      cohorts: ['Preventive Care Due', 'High Risk Members'],
+      potentialMembers: 150000
     },
     {
       id: 'diabetes-retention',
-      name: 'Diabetes Care Retention Program',
+      name: 'Diabetes Management Program',
       description: 'Engagement and retention program for existing diabetes care members',
       activeMembers: 35000,
-      status: 'active',
-      lastModified: '2024-03-20'
+      status: 'Active',
+      lastModified: '2024-03-20',
+      engagement: 45,
+      channelType: 'multi',
+      reached: 35000,
+      cohorts: ['Medication Non-Adherence', 'Missed Follow-ups'],
+      potentialMembers: 50000
     }
   ];
 
@@ -217,7 +237,7 @@ const CampaignDashboard = () => {
       description: 'Perfect for complex communications requiring interaction',
       metrics: { answerRate: '65%', completionRate: '58%' },
       cost: 'High',
-      recommendedTime: 'Twilio'
+      recommendedTime: 'Gensys'
     },
     {
       id: 'mail',
@@ -420,7 +440,7 @@ const CampaignDashboard = () => {
         
               {/* Stepper Section */}
               <div className="w-full mb-6">
-                <h3 className="text-sm font-medium text-gray-700 mb-4">Diabetes Program Enrollment 2025 Journey Steps</h3>
+                <h3 className="text-sm font-medium text-gray-700 mb-4">New Member Retention 2025 Journey Steps</h3>
                 <div className="max-w-md mx-auto">
           <div className="relative flex justify-between items-center px-2">
             {/* Background Progress Bar Container */}
