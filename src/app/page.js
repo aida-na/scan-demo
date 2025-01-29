@@ -16,7 +16,7 @@ const HomePage = () => {
   const metrics = {
     activeMembers: 200000,
     retainedMembers: 184500,
-    retentionRate: 78
+    retentionRate: 90
   };
 
   // Updated campaign data for mental health, fitness, and annual checkup
@@ -105,7 +105,7 @@ const HomePage = () => {
             <div className="flex items-center space-x-4">
               <Activity className="w-8 h-8 text-blue-500" />
               <div>
-                <p className="text-sm font-medium text-gray-800">Member Retention</p>
+                <p className="text-sm font-medium text-gray-800">Yearly Expected Churn</p>
                 <h3 className="text-2xl font-bold">{metrics.retainedMembers.toLocaleString()}</h3>
               </div>
             </div>
@@ -117,7 +117,7 @@ const HomePage = () => {
             <div className="flex items-center space-x-4">
               <TrendingUp className="w-8 h-8 text-blue-500" />
               <div>
-                <p className="text-sm font-medium text-gray-800">Retention Rate</p>
+                <p className="text-sm font-medium text-gray-800">Current Retention Rate</p>
                 <h3 className="text-2xl font-bold">{metrics.retentionRate}%</h3>
               </div>
             </div>
